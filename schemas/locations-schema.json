@@ -1,0 +1,33 @@
+{
+    "": "http://json-schema.org/draft-03/schema",
+    "type": "object",
+    "properties": {
+        "meta": {
+            "properties": {
+                "code": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "data": 
+            {
+                "properties": {
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        
+    }
+}
