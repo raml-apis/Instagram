@@ -17,4 +17,4 @@ _The API notebooks are all executable! Hit "enter" in any code cell to execute i
 
 This portal and its contents are not affiliated with Instagram. They are, however, useful for working with, and learning about, the Instagram API.
 
-The official developer API portal for Instagram is at <a href=" http://instagram.com/developer​" target="_blank"> http://instagram.com/developer​</a>
+The official developer API portal for Instagram is at <a href=" http://instagram.com/developer" target="_blank"> http://instagram.com/developer</a>
