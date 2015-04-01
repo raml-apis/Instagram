@@ -32,7 +32,7 @@ CLIENT_SECRET = prompt("Please, enter client Secret of your Instagram applicatio
 
 ```javascript
 
-API.createClient('client', '/apiplatform/repository/public/organizations/30/apis/7954/versions/8117/definition');
+API.createClient('client', '#REF_TAG_DEFENITION');
 
 ```
 
