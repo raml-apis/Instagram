@@ -42,9 +42,6 @@ securedBy: [ oauth_2_0 , clientId ]
 /media: 
   /{mediaId}: 
     type: base
-    uriParameters: 
-      mediaId: 
-        type: integer
     get: 
       description: |
         Get information about a media object. The returned type key will allow you
@@ -174,9 +171,6 @@ securedBy: [ oauth_2_0 , clientId ]
 /users: 
   /{userId}: 
     type: base
-    uriParameters: 
-      userId: 
-        type: integer
     get: 
       description: Get basic information about a user.
       responses: 
@@ -244,9 +238,15 @@ securedBy: [ oauth_2_0 , clientId ]
           type: integer
           example: 10
   /self: 
-    securedBy: 
-      - oauth_2_0: 
-          scopes: [basic]
+    type: { secured: { scope: basic } }
+    get:
+      description: Retrieve the authenticated user
+      responses:
+        200:
+          body:
+            application/json:
+              schema: user
+              example: !include examples/user-example.json
     /feed: 
       type: feedsListing
       get: 
@@ -277,52 +277,6 @@ securedBy: [ oauth_2_0 , clientId ]
             description: Return media liked before this id.
             type: integer
             example: 100
-/oembed: 
-  type: base
-  get: 
-    description: |
-      Given a short link, returns information about the media associated with
-      that link.
-    queryParameters: 
-      url: 
-        description: "A short link, like http://instagr.am/p/BUG/."
-        example: http://instagr.am/p/BUG/
-      maxheight: 
-        description: Maximum height of returned media.
-        type: integer
-        example: 320
-      maxwidth: 
-        description: Maximum width of returned media.
-        type: integer
-        example: 320
-    responses: 
-      200: 
-        body: 
-          application/json: 
-            schema: oembed
-            example: !include examples/oembed-example.json
-/p/{shortcode}/media: 
-  type: base
-  get: 
-    description: |
-      Given a short link, issues a redirect to that media's JPG file.
-    queryParameters: 
-      size: 
-        description: |
-          One of t (thumbnail), m (medium), l (large). Defaults to m.
-        enum: 
-          - t
-          - m
-          - l
-        default: m
-        example: t
-    responses: 
-      302: 
-        body: 
-          text/html: 
-            example: |
-              HTTP/1.1 302 FOUND
-              Location: http://distillery.s3.amazonaws.com/media/2010/10/02/7e4051fdcf1d45ab9bc1fba2582c0c6b_6.jpg
 /locations: 
   /{locId}: 
     type: base
@@ -367,10 +321,6 @@ securedBy: [ oauth_2_0 , clientId ]
               example: !include examples/locations-example.json
 /geographies/{geoId}/media/recent: 
   type: base
-  uriParameters: 
-    geoId: 
-      description: id of your geography subscription
-      type: integer
   get: 
     is: [ limitable ]
     description: |

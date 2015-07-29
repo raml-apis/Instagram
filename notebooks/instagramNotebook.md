@@ -274,7 +274,7 @@ likesPostResponse = client( "/media/{mediaId}/likes", { mediaId: mediaId } ).pos
 
 ```javascript
 
-assert.equal( likesResponse.status, 200, "Error" )
+assert.equal( likesPostResponse.status, 200, "Error" )
 
 ```
 
@@ -292,7 +292,7 @@ likesDeleteResponse = client( "/media/{mediaId}/likes", { mediaId: mediaId } ).d
 
 ```javascript
 
-assert.equal( likesResponse.status, 200, "Error" )
+assert.equal( likesDeleteResponse.status, 200, "Error" )
 
 ```
 
@@ -492,22 +492,6 @@ Given a short link, issues a redirect to that media's JPG file.
 
 
 
-```javascript
-
-//Recheck and uncomment after https://github.com/mulesoft/api-notebook/issues/327 will be finished
-
-//getMediaByShortcode = client.p.shortcode( "/p/{shortcode}/media" ,{ shortcode: "TWA8HeIdTG" }).get()
-
-```
-
-```javascript
-
-//assert.equal( getMediaByShortcode.status, 200, "Error" )
-
-```
-
-
-
 Given a short link, returns information about the media associated with
 
 that link.
@@ -517,18 +501,6 @@ that link.
 ```javascript
 
 urlString = feedResponse.body.data[0].link
-
-```
-
-
-
-Accessing to Oembed
-
-
-
-```javascript
-
-oembedResponse = client.oembed.get({ url: "http://instagr.am/p/BUG/" })
 
 ```
 
