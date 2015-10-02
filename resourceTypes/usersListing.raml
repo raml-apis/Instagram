@@ -1,12 +1,12 @@
-securedBy: 
-  - oauth_2_0: 
+securedBy:
+  - oauth_2_0:
       scopes: [relationships]
-      clientId: []
+      #clientId: []
 type: base
-get: 
-  responses: 
-    200: 
-      body: 
-        application/json: 
-          schema: users
+get:
+  responses:
+    200:
+      body:
+        application/json:
+          schema: Users
           example: !include ../examples/users-example.json

@@ -1,4 +1,4 @@
-#%RAML 0.8
+#%RAML 1.0
 title: Instagram
 version: v1
 baseUri: https://api.instagram.com/{version}/
@@ -6,26 +6,808 @@ mediaType: application/json
 securitySchemes:
   - oauth_2_0: !include securitySchemes/oauth_2_0.raml
   - clientId: !include securitySchemes/clientId.raml
-schemas:
-  - location: !include schemas/location-schema.json
-  - locations: !include schemas/locations-schema.json
-  - media: !include schemas/media-schema.json
-  - mediaComment: !include schemas/media-comment-schema.json
-  - mediaLikes: !include schemas/media-likes-schema.json
-  - mediaSearch: !include schemas/media-search-schema.json
-  - oembed: !include schemas/oembed-schema.json
-  - relationships: !include schemas/relationships-schema.json
-  - relationshipsPost: !include schemas/relationships-post-schema.json
-  - requestedBy: !include schemas/requested-by-schema.json
-  - tag: !include schemas/tag-schema.json
-  - tagsRecentMedia: !include schemas/tags-recent-media-schema.json
-  - tagsSearch: !include schemas/tags-search-schema.json
-  - user: !include schemas/user-schema.json
-  - users: !include schemas/users-schema.json
-  - okStatus: !include schemas/ok-status-schema.json
-  - subscriptionPost: !include schemas/subscriptionPost-schema.json
-  - subscriptionsGet: !include schemas/subscriptionsGet-schema.json
-  - subscriptionsDelete: !include schemas/subscriptionsDelete-schema.json
+types:
+    Location:
+      type: object
+      properties:
+        id?: string
+        name?: string
+        latitude?: number
+        longtitude?: number
+      example:
+        id: "1"
+        name: "John"
+        latitude: 34.016242
+        longtitude: -95.800781
+    Meta:
+      type: object
+      properties:
+        code: number
+      example:
+        code: 200
+    Locations:
+      type: object
+      properties:
+        meta?: Meta
+        data?: Location[]
+      example:
+        meta:
+          code: 200
+        data:
+          - id: "1"
+            name: "John"
+            latitude: 34.016242
+            longtitude: -95.800781
+    Counts:
+      type: object
+      properties:
+        media?: integer
+        follows?: integer
+        followed_by?: integer
+      example:
+        media: 2
+        follows: 3
+        followed_by: 5
+    UserAccount:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id?: string
+            username?: string
+            full_name?: string
+            profile_picture?: string
+            bio?: string
+            website?: string
+            count?: Counts
+      example:
+        data:
+          id: "1"
+          username: "John"
+          full_name: "John Smith"
+          profile_picture: "URL"
+          website: "example.org"
+          count:
+            media: 2
+            follows: 3
+            followed_by: 5
+    User:
+      type: object
+      properties:
+        id?: string
+        username?: string
+        full_name?: string
+        rofile_picture?:
+        bio?: string
+        website?: string
+        count?: Counts
+      example:
+        id: "1"
+        username: "John"
+        full_name: "John Smith"
+        profile_picture: "URL"
+        website: "example.org"
+        count:
+          media: 2
+          follows: 3
+          followed_by: 5
+    SubscriptionPost:
+      type: object
+      properties:
+        meta?: Meta
+        data?:
+          type: object
+          properties:
+            object?: string
+            object_id?: string
+            aspect?: string
+            callback_url?: string
+            type?: string
+            id?: string
+            lat?: number
+            lng?: number
+            radius?: number
+      example:
+        meta:
+          code: 200
+        data:
+          object_id: "25"
+          callback_url: "url"
+          id: "22"
+          lat: 34.016242,
+          lng: -95.800781
+          radius: 20
+    SubscriptionData:
+      type: object
+      properties:
+        id?: string
+        type?: string
+        object?: string
+        aspect?: string
+        callback_url?: string
+        object_id?: string
+      example:
+        object_id: "25"
+        callback_url: "url"
+        id: "22"
+    SubscriptionsGet:
+      type: object
+      properties:
+        meta?: Meta
+        data?:
+          type: SubscriptionData[]
+      example:
+        meta:
+          code: 200
+        data:
+          - object_id: "25"
+            callback_url: "url"
+            id: "22"
+    SubscriptionsDelete:
+       type: object
+       properties:
+         meta?: Meta
+         data?:
+           type: SubscriptionData
+       example:
+         meta:
+           code: 200
+         data:
+           object_id: "25"
+           callback_url: "url"
+           id: "22"
+    Tag:
+      type: object
+      properties:
+        data?:
+          type: object
+          properties:
+            media_count?: integer
+            name?: string
+      example:
+        data:
+          media_count: 2
+          name: forest
+    SerachTagItem:
+      type: object
+      properties:
+        media_count?: integer
+        name?: string
+      example:
+        media_count: 2
+        name: forest
+    TagsSearch:
+      type: object
+      properties:
+        meta?: Meta
+        data?: SerachTagItem[]
+      example:
+        meta:
+          code: 200
+        data:
+          media_count: 2
+          name: forest
+    MediaLike:
+      type: object
+      properties:
+        first_name?: string
+        last_name?: string
+        id?: string
+        type?: string
+      example:
+        first_name?: "John"
+        last_name?: "Smith"
+        id?: "2"
+        type?: "string"
+    MediaLikes:
+      type: object
+      properties:
+        data?: MediaLike[]
+      example:
+        - first_name?: "John"
+          last_name?: "Smith"
+          id?: "2"
+          type?: "string"
+    Comment:
+      type: object
+      properties:
+        created_time?: string
+        text?: string
+        from?:
+          type: object
+          properties:
+            username?: string
+            profile_pictures?: string
+            id?: string
+            full_name?: string
+        id?: string
+      example:
+        created_time: "1382576494"
+        text: "text"
+        from:
+            username: "John"
+            id: "2000"
+            full_name: "John Smith"
+        id: "200"
+    MediaComment:
+      type: object
+      properties:
+        meta: Meta
+        data: Comment[]
+      example:
+        meta:
+          code: 200
+        data:
+        - created_time: "1382576494"
+          text: "text"
+          from:
+            username: "John"
+            id: "2000"
+            full_name: "John Smith"
+          id: "200"
+    Oembed:
+      type: object
+      properties:
+        author_id?: integer
+        author_name?: string
+        author_url?: string
+        heght?: integer
+        media_id?: string
+        provider_name?: string
+        provider_url?: string
+        title?: string
+        type?: string
+        url?: string
+        version?: string
+        width?: integer
+      example:
+        author_id: 20
+        author_name: "John"
+        author_url: "URL"
+        heght: 400
+        media_id: 29
+        provider_name: "Alex"
+        provider_url: "URL"
+        title: "Photos"
+        type: "media"
+        url: "URL"
+        version: 2.11
+        width: 600
+    RelationshipsPost:
+      type: object
+      properties:
+        meta?: Meta
+        data?:
+          type: object
+          properties:
+            outgoing_status?: string
+      example:
+        meta:
+          code: 200
+        data:
+          outgoing_status: "none"
+    Relationships:
+      type: object
+      properties:
+        meta?: Meta
+        data?:
+          type: object
+          properties:
+            outgoing_status?: string
+            incoming_status?: string
+      example:
+        meta:
+          code: 200
+        data:
+          outgoing_status: "none"
+          incoming_status: "requested_by"
+    RequestedBy:
+      type: object
+      properties:
+        meta: Meta
+        data:
+          type: object
+          properties:
+            username: string
+            profile_picture: string
+            id: string
+      example:
+        meta:
+          code: 200
+        data:
+          username: "John"
+          profile_picture: "URL"
+          id: "25"
+    UsersItem:
+      type: object
+      properties:
+        username: string
+        first_name: string
+        profile_picture: string
+        id: string
+        last_name: string
+      example:
+        username: "John"
+        first_name: "John"
+        profile_picture: "URL"
+        id: "25"
+        last_name: "Smith"
+    Users:
+      type: object
+      properties:
+        data: UsersItem[]
+      example:
+        data:
+          - username: "John"
+            first_name: "John"
+            profile_picture: "URL
+            id: "25"
+            last_name: "Smith"
+    OkStatus:
+      type: object
+      properties:
+        geo:
+          type: object
+          properties:
+            address:
+              type: object
+              properties:
+                city: string
+                streetAddress: string
+            age: number
+      example:
+        geo:
+          address:
+            city: "SEATTLE"
+            streetAddress: "300 BOYLSTON AVE E"
+          age: 20
+    Caption:
+      type: object
+      properties:
+        created_time?: string
+        text?: string
+        from?:
+          type: object
+          properties:
+            username?: string
+            id?: string
+        id?: string
+      example:
+        created_time: "1382576494"
+        text: "text"
+        from:
+          username: "John"
+          id: "2000"
+    Likes:
+      type: object
+      properties:
+        count?: number
+        data?: User[]
+      example:
+        count: 42
+        data:
+            - id: "1"
+              username: "John"
+              full_name: "John Smith"
+              profile_picture: "URL"
+              website: "example.org"
+              count:
+                media: 2
+                follows: 3
+                followed_by: 5
+    Resolution:
+      type: object
+      properties:
+        url?: string
+        width?: number
+        height?: number
+      example:
+        url: "URL"
+        width: 400
+        height: 600
+    Image:
+      type: object
+      properties:
+        low_resolution?: Resolution
+        thumbnail?: Resolution
+        standard_resolution: Resolution
+      example:
+        low_resolution:
+          url: "URL"
+          width: 200
+          height: 400
+        thembnail:
+          url: "URL"
+          width: 400
+          height: 600
+        standard_resolution:
+          url: "URL"
+          width: 600
+          height: 800
+    TagsRecentMedia:
+      type: object
+      properties:
+        data?: TagsRecentMediaItem []
+      example:
+        - type: "photo"
+          tags:
+            - "forest"
+            - "flovers"
+          comments:
+            - created_time: "1382576494"
+              text: "text"
+              from:
+                username: "John"
+                id: "2000"
+                full_name: "John Smith"
+              id: "200"
+          caption:
+            created_time: "1382576494"
+            text: "text"
+            from:
+              username: "John"
+              id: "2000"
+          likes:
+            count: 42
+            data:
+              - id: "1"
+                username: "John"
+                full_name: "John Smith"
+                profile_picture: "URL"
+                website: "example.org"
+                count:
+                  media: 2
+                  follows: 3
+                  followed_by: 5
+          link: "link"
+          created_time: "1386312776"
+          images: "URL"
+          id: "id"
+          location: "location"
+    TagsRecentMediaItem:
+      type: object
+      properties:
+        type?: string
+        users_in_photo?: string[]
+        filter?: string
+        tags?: string[]
+        comments?:
+          type: object
+          properties:
+            data?: Comment[]
+            count?: number
+        caption?:
+          type: Caption
+        likes?: Likes
+        link?: string
+        created_time?: string
+        images?: Image
+        id?: string
+        location?: string
+      example:
+        type: "photo"
+        tags:
+          - "forest"
+          - "flovers"
+        comments:
+          - created_time: "1382576494"
+            text: "text"
+            from:
+              username: "John"
+              id: "2000"
+              full_name: "John Smith"
+            id: "200"
+        caption:
+          created_time: "1382576494"
+          text: "text"
+          from:
+            username: "John"
+            id: "2000"
+        likes:
+          count: 42
+          data:
+            - id: "1"
+              username: "John"
+              full_name: "John Smith"
+              profile_picture: "URL"
+              website: "example.org"
+              count:
+                media: 2
+                follows: 3
+                followed_by: 5
+        link: "link"
+        created_time: "1386312776"
+        images: "URL"
+        id: "id"
+        location: "location"
+    UsersInPhoto:
+      type: object
+      properties:
+        user: User
+        position:
+          type: object
+          properties:
+            x: number
+            y: number
+      example:
+        user:
+          id: "1"
+          username: "John"
+          full_name: "John Smith"
+          profile_picture: "URL"
+          website: "example.org"
+          count:
+            media: 2
+            follows: 3
+            followed_by: 5
+        position:
+          x: 275
+          y: 705
+    Media:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            users_in_photo: UsersInPhoto []
+            filter: string
+            tags?: string []
+            comments:
+              type: object
+              properties:
+                data?: Comment[]
+                count?: number
+            caption: string
+            likes: Likes
+            link: string
+            user: User
+            created_time: string
+            images: Image
+            id: string
+            location: string
+      example:
+        data:
+          users_in_photo:
+            - user:
+                id: "1"
+                username: "John"
+                full_name: "John Smith"
+                profile_picture: "URL"
+                website: "example.org"
+                count:
+                  media: 2
+                  follows: 3
+                  followed_by: 5
+              position:
+                x: 275
+                y: 705
+          filter: "filter"
+          tags:
+            - "forest"
+            - "animals"
+          comments:
+            data:
+              - created_time: "1382576494"
+                text: "text"
+                from:
+                  username: "John"
+                  id: "2000"
+                  full_name: "John Smith"
+                id: "200"
+          caption: string
+          likes:
+            count: 42
+            data:
+              - id: "1"
+                username: "John"
+                full_name: "John Smith"
+                profile_picture: "URL"
+                website: "example.org"
+                count:
+                  media: 2
+                  follows: 3
+                  followed_by: 5
+          link: "link"
+          created_time: "1386312776"
+          images: "URL"
+          id: "id"
+          location: "location"
+          user:
+            id: "1"
+            username: "John"
+            full_name: "John Smith"
+            profile_picture: "URL"
+            website: "example.org"
+            count:
+              media: 2
+              follows: 3
+              followed_by: 5
+    MediaSearchFirstType:
+      type: object
+      properties:
+        distance: number
+        users_in_photo: string[]
+        filter: string
+        tags: string[]
+        comments:
+          type: object
+          properties:
+            data?: Comment[]
+            count?: number
+        caption: string
+        likes: Likes
+        link: string
+        user: User
+        created_time: string
+        images: Image
+        id: string
+        location: string
+      example:
+        distance: 50
+        users_in_photo:
+          - user:
+              id: "1"
+              username: "John"
+              full_name: "John Smith"
+              profile_picture: "URL"
+              website: "example.org"
+              count:
+                media: 2
+                follows: 3
+                followed_by: 5
+            position:
+              x: 275
+              y: 705
+        filter: "filter"
+        tags:
+          - "forest"
+          - "animals"
+        comments:
+          data:
+            - created_time: "1382576494"
+              text: "text"
+              from:
+                username: "John"
+                id: "2000"
+                full_name: "John Smith"
+              id: "200"
+        caption: string
+        likes:
+          count: 42
+          data:
+            - id: "1"
+              username: "John"
+              full_name: "John Smith"
+              profile_picture: "URL"
+              website: "example.org"
+              count:
+                media: 2
+                follows: 3
+                followed_by: 5
+        link: "link"
+        created_time: "1386312776"
+        images: "URL"
+        id: "id"
+        location: "location"
+        user:
+          id: "1"
+          username: "John"
+          full_name: "John Smith"
+          profile_picture: "URL"
+          website: "example.org"
+          count:
+            media: 2
+            follows: 3
+            followed_by: 5
+    MediaSearchSecondType:
+      type: object
+      properties:
+        distance: number
+        videos:
+          type: object
+          properties:
+            low_resoulution:
+              type: object
+              properties:
+                url: string
+                width: integer
+                height: integer
+            standard_resoulution:
+              type: object
+              properties:
+                url: string
+                width: integer
+                height: integer
+            users_in_photo: UsersInPhoto[]
+            filter: string
+            tags: string[]
+            comments:
+              type: object
+              properties:
+                data?: Comment[]
+                count?: number
+            caption: "Caption"
+            likes: Likes
+            link: string
+            user: User
+            created_time: string
+            images: Image
+            id: string
+            location: string
+      example:
+        distance: 50
+        videos:
+          low_resoulution:
+              url: "URL"
+              width: 200
+              height: 400
+          standard_resoulution:
+              url: "URL"
+              width: 400
+              height: 600
+          users_in_photo:
+            - user:
+                id: "1"
+                username: "John"
+                full_name: "John Smith"
+                profile_picture: "URL"
+                website: "example.org"
+                count:
+                  media: 2
+                  follows: 3
+                  followed_by: 5
+              position:
+                x: 275
+                y: 705
+          filter: "filter"
+          tags:
+            - "forest"
+            - "animals"
+          comments:
+            data:
+              - created_time: "1382576494"
+                text: "text"
+                from:
+                  username: "John"
+                  id: "2000"
+                  full_name: "John Smith"
+                id: "200"
+          caption: string
+          likes:
+            count: 42
+            data:
+              - id: "1"
+                username: "John"
+                full_name: "John Smith"
+                profile_picture: "URL"
+                website: "example.org"
+                count:
+                  media: 2
+                  follows: 3
+                  followed_by: 5
+          link: "link"
+          created_time: "1386312776"
+          images: "URL"
+          id: "id"
+          location: "location"
+          user:
+            id: "1"
+            username: "John"
+            full_name: "John Smith"
+            profile_picture: "URL"
+            website: "example.org"
+            count:
+              media: 2
+              follows: 3
+              followed_by: 5
+    MediaSearch:
+      type: object
+      properties:
+        meta?: Meta
+        data: MediaSearchFirstType | MediaSearchSecondType
+
+
 resourceTypes:
   - usersListing: !include resourceTypes/usersListing.raml
   - mediaSearch: !include resourceTypes/mediaSearch.raml
@@ -39,205 +821,205 @@ traits:
   - limitableByTime: !include traits/limitableByTime.raml
   - limitableById: !include traits/limitableById.raml
 securedBy: [ oauth_2_0 , clientId ]
-/media: 
-  /{mediaId}: 
+/media:
+  /{mediaId}:
     type: base
-    get: 
+    get:
       description: |
         Get information about a media object. The returned type key will allow you
         to differentiate between image and video media.
         Note: if you authenticate with an OAuth Token, you will receive the
         user_has_liked key which quickly tells you whether the current user has liked
         this media item.
-      responses: 
-        200: 
-          body: 
-            application/json: 
-              schema: media
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Media
               example: !include examples/media-example.json
-    /comments: 
+    /comments:
       type: { secured: { scope: comments } }
-      get: 
+      get:
         description: Get a full list of comments on a media.
-        responses: 
-          200: 
-            body: 
-              application/json: 
-                schema: mediaComment
+        responses:
+          200:
+            body:
+              application/json:
+                schema: MediaComment
                 example: !include examples/media-comment-example.json
-      post: 
+      post:
         description: Create a comment on a media. Please email apidevelopers[at]instagram.com for access.
-        body: 
-          application/x-www-form-urlencoded: 
-            formParameters: 
-              text: 
+        body:
+          application/x-www-form-urlencoded:
+            formParameters:
+              text:
                 description: Text to post as a comment on the media as specified in {mediaId}.
                 required: true
-      /{commentId}: 
+      /{commentId}:
         type: { secured: { scope: comments } }
-        uriParameters: 
-          commentId: 
+        uriParameters:
+          commentId:
             description: Identifier of the comment
             type: integer
-        delete: 
+        delete:
           description: |
             Remove a comment either on the authenticated user's media or authored by the authenticated user.
-          responses: 
-            200: 
+          responses:
+            200:
               description: Comment removed.
-    /likes: 
+    /likes:
       type: { secured: { scope: likes } }
-      get: 
+      get:
         description: |
           Get a list of users who have liked this media.
           Required scope: likes.
-        responses: 
-          200: 
-            body: 
-              application/json: 
-                schema: mediaLikes
+        responses:
+          200:
+            body:
+              application/json:
+                schema: MediaLikes
                 example: !include examples/media-likes-example.json
-      post: 
+      post:
         description: Set a like on this media by the currently authenticated user.
-        responses: 
-          200: 
+        responses:
+          200:
             description: |
               Successfully liked a media object
-      delete: 
+      delete:
         description: Remove a like on this media by the currently authenticated user.
-        responses: 
-          204: 
+        responses:
+          204:
             description: |
               Like removed succesfully
-  /search: 
+  /search:
     type: mediaSearch
-    get: 
+    get:
       is: [ limitableByTime , limitableByGeoPoint ]
       description: |
         Search for media in a given area. The default time span is set to 5 days.
         The time span must not exceed 7 days. Defaults time stamps cover the
         last 5 days.
-  /popular: 
+  /popular:
     type: mediaSearch
-    get: 
+    get:
       description: |
         Get a list of what media is most popular at the moment.
-/tags: 
-  /{tagName}: 
+/tags:
+  /{tagName}:
     type: base
-    uriParameters: 
-      tagName: 
+    uriParameters:
+      tagName:
         description: Name of tag.
-    get: 
+    get:
       description: Get information about a tag object.
-      responses: 
-        200: 
-          body: 
-            application/json: 
-              schema: tag
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Tag
               example: !include examples/tag-example.json
-    /media/recent: 
+    /media/recent:
       type: base
-      get: 
+      get:
         is: [ limitableById ]
         description: |
           Get a list of recently tagged media. Note that this media is ordered by when the media was tagged
           with this tag, rather than the order it was posted. Use the max_tag_id and min_tag_id parameters
           in the pagination response to paginate through these objects.
-        responses: 
-          200: 
-            body: 
-              application/json: 
-                schema: tagsRecentMedia
+        responses:
+          200:
+            body:
+              application/json:
+                schema: TagsRecentMedia
                 example: !include examples/tags-recent-media-example.json
-  /search: 
+  /search:
     type: base
-    get: 
+    get:
       description: |
         Search for tags by name. Results are ordered first as an exact match, then by popularity.
         Short tags will be treated as exact matches.
-      queryParameters: 
-        q: 
+      queryParameters:
+        q:
           description: |
             A valid tag name without a leading #.
           required: true
           example: nofilter
-      responses: 
-        200: 
-          body: 
-            application/json: 
-              schema: tagsSearch
+      responses:
+        200:
+          body:
+            application/json:
+              schema: TagsSearch
               example: !include examples/tags-search-example.json
-/users: 
-  /{userId}: 
+/users:
+  /{userId}:
     type: base
-    get: 
+    get:
       description: Get basic information about a user.
-      responses: 
-        200: 
-          body: 
-            application/json: 
-              schema: user
+      responses:
+        200:
+          body:
+            application/json:
+              schema: UserAccount
               example: !include examples/user-example.json
-    /follows: 
+    /follows:
       type: usersListing
-      get: 
+      get:
         description: Get the list of users this user follows.
-    /followed-by: 
+    /followed-by:
       type: usersListing
-      get: 
+      get:
         description: Get the list of users this user is followed by.
-    /media/recent: 
+    /media/recent:
       type: feedsListing
-      get: 
+      get:
         is: [ limitableById , limitableByTime , limitable ]
         description: |
           See the authenticated user's feed. May return a mix of both image and
           video types.
-    /relationship: 
+    /relationship:
       type: { secured: { scope: comments } }
-      get: 
+      get:
         description: Get information about a relationship to another user.
-        responses: 
-          200: 
-            body: 
-              application/json: 
-                schema: relationships
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Relationships
                 example: !include examples/relationship-example.json
-      post: 
+      post:
         description: Modify the relationship between the current user and the target user.
-        body: 
-          application/x-www-form-urlencoded: 
-            formParameters: 
-              action: 
+        body:
+          application/x-www-form-urlencoded:
+            formParameters:
+              action:
                 description: One of follow/unfollow/block/unblock/approve/deny.
-                enum: 
+                enum:
                   - follow
                   - unfollow
                   - block
                   - unblock
                   - approve
                   - deny
-        responses: 
-          200: 
-            body: 
-              application/json: 
-                schema: relationships
+        responses:
+          200:
+            body:
+              application/json:
+                schema: Relationships
                 example: !include examples/relationship-post-example.json
-  /search: 
+  /search:
     type: usersListing
-    get: 
+    get:
       description: Search for a user by name.
-      queryParameters: 
-        q: 
+      queryParameters:
+        q:
           description: A query string.
           required: true
           example: some query
-        count: 
+        count:
           description: Number of users to return.
           type: integer
           example: 10
-  /self: 
+  /self:
     type: { secured: { scope: basic } }
     get:
       description: Retrieve the authenticated user
@@ -245,25 +1027,25 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: user
+              schema: UserAccount
               example: !include examples/user-example.json
-    /feed: 
+    /feed:
       type: feedsListing
-      get: 
+      get:
         is: [ limitableById , limitable ]
         description: |
           See the authenticated user's feed. May return a mix of both image and
           video types.
-    /requested-by: 
-      securedBy: 
-        - oauth_2_0: 
+    /requested-by:
+      securedBy:
+        - oauth_2_0:
             scopes: [relationships]
       type: usersListing
-      get: 
+      get:
         description: "List the users who have requested this user's permission to follow."
-    /media/liked: 
+    /media/liked:
       type: feedsListing
-      get: 
+      get:
         is: [ limitable ]
         description: |
           See the authenticated user's list of media they've liked. May return a mix
@@ -272,56 +1054,56 @@ securedBy: [ oauth_2_0 , clientId ]
           Private media is returned as long as the authenticated user has permission
           to view that media. Liked media lists are only available for the currently
           authenticated user.
-        queryParameters: 
-          max_like_id: 
+        queryParameters:
+          max_like_id:
             description: Return media liked before this id.
             type: integer
             example: 100
-/locations: 
-  /{locId}: 
+/locations:
+  /{locId}:
     type: base
-    uriParameters: 
-      locId: 
+    uriParameters:
+      locId:
         type: integer
-    get: 
+    get:
       description: Get information about a location.
-      responses: 
-        200: 
-          body: 
-            application/json: 
-              schema: location
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Location
               example: !include examples/location-example.json
-    /media/recent: 
+    /media/recent:
       type: feedsListing
-      get: 
+      get:
         is: [ limitableById , limitableByTime ]
         description: |
           Get a list of recent media objects from a given location. May return a
           mix of both image and video types.
-  /search: 
+  /search:
     type: base
-    get: 
+    get:
       is: [ limitableByGeoPoint ]
       description: Search for a location by geographic coordinate.
-      queryParameters: 
-        foursquare_v2_id: 
+      queryParameters:
+        foursquare_v2_id:
           description: |
             Returns a location mapped off of a foursquare v2 api location id. If
             used, you are not required to use lat and lng.
-        foursquare_id: 
+        foursquare_id:
           description: |
             Returns a location mapped off of a foursquare v1 api location id. If used,
             you are not required to use lat and lng. Note that this method is deprecated;
             you should use the new foursquare IDs with V2 of their API.
-      responses: 
-        200: 
-          body: 
-            application/json: 
-              schema: locations
+      responses:
+        200:
+          body:
+            application/json:
+              schema: Locations
               example: !include examples/locations-example.json
-/geographies/{geoId}/media/recent: 
+/geographies/{geoId}/media/recent:
   type: base
-  get: 
+  get:
     is: [ limitable ]
     description: |
       Get recent media from a geography subscription that you created.
@@ -331,103 +1113,103 @@ securedBy: [ oauth_2_0 , clientId ]
       define, you will be returned a unique geo-id that can be used in this
       query. To backfill photos from the location covered by this geography,
       use the media search endpoint.
-    queryParameters: 
-      min_id: 
+    queryParameters:
+      min_id:
         description: Return media before this min_id.
         type: integer
         example: 0
-    responses: 
-      200: 
-/subscriptions: 
+    responses:
+      200:
+/subscriptions:
   type: base
-  get: 
+  get:
     description: List subscriptions
-    queryParameters: 
-      client_id: 
+    queryParameters:
+      client_id:
         description: "Application's client id"
         required: true
-      client_secret: 
+      client_secret:
         description: "Application's client secret"
         required: true
-    responses: 
-      200: 
-        body: 
-          application/json: 
-            schema: subscriptionsGet
+    responses:
+      200:
+        body:
+          application/json:
+            schema: SubscriptionsGet
             example: !include examples/subscriptionsGet-example.json
     securedBy: [ oauth_2_0 ]
-  post: 
+  post:
     description: Create a subscription
-    body: 
-      application/x-www-form-urlencoded: 
-        formParameters: 
-          client_id: 
+    body:
+      application/x-www-form-urlencoded:
+        formParameters:
+          client_id:
             description: "Application's client id"
             required: true
-          client_secret: 
+          client_secret:
             description: "Application's client secret"
             required: true
-          object: 
+          object:
             description: "The object you'd like to subscribe to."
-            enum: 
+            enum:
               - location
               - user
               - geography
               - tag
-          object_id: 
+          object_id:
             description: "Used for user, location and tag subscriptions only. Required. In case of user and location represents 'id' of the desired object. In case of tag represents 'name' of the desired tag."
-          aspect: 
+          aspect:
             description: |
               The aspect of the object you'd like to subscribe to. Note that we only support "media" at this time, but we might support other types of subscriptions in the future.
-          callback_url: 
+          callback_url:
             description: |
               When we have new updates to send your server, we do a simple POST with a payload containing updates to a URL on your server. This callback URL must support GET and POST methods.
-              
+
               When you add a subscription, we will send a GET request to your callback URL to verify the existence of the URL and that want to create the subscription. When we have new data, we'll POST this data to your callback URL. We'll explain more about what this URL needs to do later on this page.
             required: true
-          lat: 
+          lat:
             displayName: ""
             description: "Geography area's center latitude. Used for geography subscription only. Required."
             type: number
-          lng: 
+          lng:
             description: "Geography area's center longitude. Used for geography subscription only. Required."
             type: number
-          radius: 
+          radius:
             description: "Geography area's radius.Used for geography subscription only. Required."
             type: number
-    responses: 
-      200: 
-        body: 
-          application/json: 
-            schema: subscriptionPost
+    responses:
+      200:
+        body:
+          application/json:
+            schema: SubscriptionPost
             example: !include examples/subscriptionPost-example.json
-  delete: 
+  delete:
     description: Selete a subscription
-    queryParameters: 
-      client_id: 
+    queryParameters:
+      client_id:
         description: "Application's client id"
         required: true
-      client_secret: 
+      client_secret:
         description: "Application's client secret"
         required: true
-      id: 
+      id:
         description: Id of subscription to be removed.
-      object: 
+      object:
         description: "If you'd like to remove all subscriptions of a certain object type, you may include the object type. Also you can clear all your current subscriptions by setting 'object' to 'all'."
-        enum: 
+        enum:
           - geography
           - location
           - tag
           - user
           - all
-    responses: 
-      200: 
-        body: 
-          application/json: 
-            schema: subscriptionsDelete
+    responses:
+      200:
+        body:
+          application/json:
+            schema: SubscriptionsDelete
             example: !include examples/subscriptionsDelete-example.json
     securedBy: [ oauth_2_0 ]
-documentation: 
+documentation:
   - title: Authentication
     content: !include docs/authentication.md
   - title: Headline

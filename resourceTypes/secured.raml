@@ -1,25 +1,25 @@
-delete?: 
-  responses: 
-    200: 
-      body: 
-        application/json: 
-          schema: okStatus
+delete?:
+  responses:
+    200:
+      body:
+        application/json:
+          schema: OkStatus | string
           example: !include ../examples/ok-status-example.json
-  securedBy: 
-    - oauth_2_0: 
+  securedBy:
+    - oauth_2_0:
         scopes: [<<scope>>]
-post?: 
-  responses: 
-    200: 
-      body: 
-        application/json: 
-          schema: okStatus
+post?:
+  responses:
+    200:
+      body:
+        application/json:
+          schema: OkStatus | string
           example: !include ../examples/ok-status-example.json
-  securedBy: 
-    - oauth_2_0: 
+  securedBy:
+    - oauth_2_0:
         scopes: [<<scope>>]
-securedBy: 
-  - oauth_2_0: 
+securedBy:
+  - oauth_2_0:
       scopes: [<<scope>>]
-      clientId: []
+      #clientId: []
 type: base
