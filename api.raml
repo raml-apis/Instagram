@@ -341,7 +341,7 @@ types:
         data:
           - username: "John"
             first_name: "John"
-            profile_picture: "URL
+            profile_picture: "URL"
             id: "25"
             last_name: "Smith"
     OkStatus:
@@ -851,7 +851,7 @@ securedBy: [ oauth_2_0 , clientId ]
         description: Create a comment on a media. Please email apidevelopers[at]instagram.com for access.
         body:
           application/x-www-form-urlencoded:
-            formParameters:
+            properties:
               text:
                 description: Text to post as a comment on the media as specified in {mediaId}.
                 required: true
@@ -990,7 +990,7 @@ securedBy: [ oauth_2_0 , clientId ]
         description: Modify the relationship between the current user and the target user.
         body:
           application/x-www-form-urlencoded:
-            formParameters:
+            properties:
               action:
                 description: One of follow/unfollow/block/unblock/approve/deny.
                 enum:
@@ -1142,7 +1142,7 @@ securedBy: [ oauth_2_0 , clientId ]
     description: Create a subscription
     body:
       application/x-www-form-urlencoded:
-        formParameters:
+        properties: 
           client_id:
             description: "Application's client id"
             required: true
