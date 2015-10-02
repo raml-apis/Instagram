@@ -3,7 +3,7 @@ delete?:
     200:
       body:
         application/json:
-          schema: OkStatus | string
+          schema: types.OkStatus | string
           example: !include ../examples/ok-status-example.json
   securedBy:
     - oauth_2_0:
@@ -13,7 +13,7 @@ post?:
     200:
       body:
         application/json:
-          schema: OkStatus | string
+          schema: types.OkStatus | string
           example: !include ../examples/ok-status-example.json
   securedBy:
     - oauth_2_0:

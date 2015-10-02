@@ -8,8 +8,6 @@ securitySchemes:
   - clientId: !include securitySchemes/clientId.raml
 uses:
   types: !include types.raml
-
-
 resourceTypes:
   - usersListing: !include resourceTypes/usersListing.raml
   - mediaSearch: !include resourceTypes/mediaSearch.raml
@@ -118,7 +116,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: Tag
+              schema: types.Tag
               example: !include examples/tag-example.json
     /media/recent:
       type: base
@@ -132,7 +130,7 @@ securedBy: [ oauth_2_0 , clientId ]
           200:
             body:
               application/json:
-                schema: TagsRecentMedia
+                schema: types.TagsRecentMedia
                 example: !include examples/tags-recent-media-example.json
   /search:
     type: base
@@ -150,7 +148,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: TagsSearch
+              schema: types.TagsSearch
               example: !include examples/tags-search-example.json
 /users:
   /{userId}:
@@ -161,7 +159,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: UserAccount
+              schema: types.UserAccount
               example: !include examples/user-example.json
     /follows:
       type: usersListing
@@ -186,7 +184,7 @@ securedBy: [ oauth_2_0 , clientId ]
           200:
             body:
               application/json:
-                schema: Relationships
+                schema: types.Relationships
                 example: !include examples/relationship-example.json
       post:
         description: Modify the relationship between the current user and the target user.
@@ -206,7 +204,7 @@ securedBy: [ oauth_2_0 , clientId ]
           200:
             body:
               application/json:
-                schema: Relationships
+                schema: types.Relationships
                 example: !include examples/relationship-post-example.json
   /search:
     type: usersListing
@@ -229,7 +227,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: UserAccount
+              schema: types.UserAccount
               example: !include examples/user-example.json
     /feed:
       type: feedsListing
@@ -273,7 +271,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: Location
+              schema: types.Location
               example: !include examples/location-example.json
     /media/recent:
       type: feedsListing
@@ -301,7 +299,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: Locations
+              schema: types.Locations
               example: !include examples/locations-example.json
 /geographies/{geoId}/media/recent:
   type: base
@@ -337,7 +335,7 @@ securedBy: [ oauth_2_0 , clientId ]
       200:
         body:
           application/json:
-            schema: SubscriptionsGet
+            schema: types.SubscriptionsGet
             example: !include examples/subscriptionsGet-example.json
     securedBy: [ oauth_2_0 ]
   post:
@@ -383,7 +381,7 @@ securedBy: [ oauth_2_0 , clientId ]
       200:
         body:
           application/json:
-            schema: SubscriptionPost
+            schema: types.SubscriptionPost
             example: !include examples/subscriptionPost-example.json
   delete:
     description: Selete a subscription
@@ -408,7 +406,7 @@ securedBy: [ oauth_2_0 , clientId ]
       200:
         body:
           application/json:
-            schema: SubscriptionsDelete
+            schema: types.SubscriptionsDelete
             example: !include examples/subscriptionsDelete-example.json
     securedBy: [ oauth_2_0 ]
 documentation:
