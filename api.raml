@@ -35,8 +35,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: types.Media
-              example: !include examples/media-example.json
+              type: types.Media
     /comments:
       type: { secured: { scope: comments } }
       get:
@@ -46,7 +45,6 @@ securedBy: [ oauth_2_0 , clientId ]
             body:
               application/json:
                 type: types.MediaComment
-                example: !include examples/media-comment-example.json
       post:
         description: Create a comment on a media. Please email apidevelopers[at]instagram.com for access.
         body:
@@ -77,8 +75,7 @@ securedBy: [ oauth_2_0 , clientId ]
           200:
             body:
               application/json:
-                schema: types.MediaLikes
-                example: !include examples/media-likes-example.json
+                type: types.MediaLikes
       post:
         description: Set a like on this media by the currently authenticated user.
         responses:
@@ -116,8 +113,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: types.Tag
-              example: !include examples/tag-example.json
+              type: types.Tag
     /media/recent:
       type: base
       get:
@@ -130,8 +126,7 @@ securedBy: [ oauth_2_0 , clientId ]
           200:
             body:
               application/json:
-                schema: types.TagsRecentMedia
-                example: !include examples/tags-recent-media-example.json
+                type: types.TagsRecentMedia
   /search:
     type: base
     get:
@@ -148,8 +143,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: types.TagsSearch
-              example: !include examples/tags-search-example.json
+              type: types.TagsSearch
 /users:
   /{userId}:
     type: base
@@ -159,8 +153,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: types.UserAccount
-              example: !include examples/user-example.json
+              type: types.UserAccount
     /follows:
       type: usersListing
       get:
@@ -184,8 +177,7 @@ securedBy: [ oauth_2_0 , clientId ]
           200:
             body:
               application/json:
-                schema: types.Relationships
-                example: !include examples/relationship-example.json
+                type: types.Relationships
       post:
         description: Modify the relationship between the current user and the target user.
         body:
@@ -204,8 +196,7 @@ securedBy: [ oauth_2_0 , clientId ]
           200:
             body:
               application/json:
-                schema: types.Relationships
-                example: !include examples/relationship-post-example.json
+                type: types.Relationships
   /search:
     type: usersListing
     get:
@@ -227,8 +218,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: types.UserAccount
-              example: !include examples/user-example.json
+              type: types.UserAccount
     /feed:
       type: feedsListing
       get:
@@ -271,8 +261,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: types.Location
-              example: !include examples/location-example.json
+              type: types.Location
     /media/recent:
       type: feedsListing
       get:
@@ -299,8 +288,7 @@ securedBy: [ oauth_2_0 , clientId ]
         200:
           body:
             application/json:
-              schema: types.Locations
-              example: !include examples/locations-example.json
+              type: types.Locations
 /geographies/{geoId}/media/recent:
   type: base
   get:
@@ -335,8 +323,7 @@ securedBy: [ oauth_2_0 , clientId ]
       200:
         body:
           application/json:
-            schema: types.SubscriptionsGet
-            example: !include examples/subscriptionsGet-example.json
+            type: types.SubscriptionsGet
     securedBy: [ oauth_2_0 ]
   post:
     description: Create a subscription
@@ -381,8 +368,7 @@ securedBy: [ oauth_2_0 , clientId ]
       200:
         body:
           application/json:
-            schema: types.SubscriptionPost
-            example: !include examples/subscriptionPost-example.json
+            type: types.SubscriptionPost
   delete:
     description: Selete a subscription
     queryParameters:
@@ -406,8 +392,7 @@ securedBy: [ oauth_2_0 , clientId ]
       200:
         body:
           application/json:
-            schema: types.SubscriptionsDelete
-            example: !include examples/subscriptionsDelete-example.json
+            type: types.SubscriptionsDelete
     securedBy: [ oauth_2_0 ]
 documentation:
   - title: Authentication
