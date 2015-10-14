@@ -72,7 +72,7 @@ types:
         id?: string
         username?: string
         full_name?: string
-        rofile_picture?:
+        profile_picture?:
         bio?: string
         website?: string
         count?: Counts
@@ -180,8 +180,8 @@ types:
         meta:
           code: 200
         data:
-          media_count: 2
-          name: forest
+          - media_count: 2
+            name: forest
     MediaLike:
       type: object
       properties:
@@ -190,19 +190,20 @@ types:
         id?: string
         type?: string
       example:
-        first_name?: "John"
-        last_name?: "Smith"
-        id?: "2"
-        type?: "string"
+        first_name: "John"
+        last_name: "Smith"
+        id: "2"
+        type: "string"
     MediaLikes:
       type: object
       properties:
         data?: MediaLike[]
       example:
-        - first_name?: "John"
-          last_name?: "Smith"
-          id?: "2"
-          type?: "string"
+        data:
+          - first_name: "John"
+            last_name: "Smith"
+            id: "2"
+            type: "string"
     Comment:
       type: object
       properties:
@@ -405,13 +406,13 @@ types:
       properties:
         low_resolution?: Resolution
         thumbnail?: Resolution
-        standard_resolution: Resolution
+        standard_resolution?: Resolution
       example:
         low_resolution:
           url: "URL"
           width: 200
           height: 400
-        thembnail:
+        thumbnail:
           url: "URL"
           width: 400
           height: 600
@@ -424,41 +425,44 @@ types:
       properties:
         data?: TagsRecentMediaItem []
       example:
-        - type: "photo"
-          tags:
-            - "forest"
-            - "flovers"
-          comments:
-            - created_time: "1382576494"
+        data:
+          - type: "photo"
+            tags:
+              - "forest"
+              - "flovers"
+            comments:
+              data:
+                - created_time: "1382576494"
+                  text: "text"
+                  from:
+                    username: "John"
+                    id: "2000"
+                    full_name: "John Smith"
+                  id: "200"
+              count: 1
+            caption:
+              created_time: "1382576494"
               text: "text"
               from:
                 username: "John"
                 id: "2000"
-                full_name: "John Smith"
-              id: "200"
-          caption:
-            created_time: "1382576494"
-            text: "text"
-            from:
-              username: "John"
-              id: "2000"
-          likes:
-            count: 42
-            data:
-              - id: "1"
-                username: "John"
-                full_name: "John Smith"
-                profile_picture: "URL"
-                website: "example.org"
-                count:
-                  media: 2
-                  follows: 3
-                  followed_by: 5
-          link: "link"
-          created_time: "1386312776"
-          images: "URL"
-          id: "id"
-          location: "location"
+            likes:
+              count: 42
+              data:
+                - id: "1"
+                  username: "John"
+                  full_name: "John Smith"
+                  profile_picture: "URL"
+                  website: "example.org"
+                  count:
+                    media: 2
+                    follows: 3
+                    followed_by: 5
+            link: "link"
+            created_time: "1386312776"
+            images: "URL"
+            id: "id"
+            location: "location"
     TagsRecentMediaItem:
       type: object
       properties:
@@ -485,13 +489,15 @@ types:
           - "forest"
           - "flovers"
         comments:
-          - created_time: "1382576494"
-            text: "text"
-            from:
-              username: "John"
-              id: "2000"
-              full_name: "John Smith"
-            id: "200"
+          data:
+            - created_time: "1382576494"
+              text: "text"
+              from:
+                username: "John"
+                id: "2000"
+                full_name: "John Smith"
+              id: "200"
+          count: 2
         caption:
           created_time: "1382576494"
           text: "text"
@@ -707,7 +713,7 @@ types:
                 url: string
                 width: integer
                 height: integer
-            standard_resoulution:
+            standard_resoulution?:
               type: object
               properties:
                 url: string
