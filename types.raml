@@ -260,13 +260,13 @@ types:
         author_name: "John"
         author_url: "URL"
         heght: 400
-        media_id: 29
+        media_id: "29"
         provider_name: "Alex"
         provider_url: "URL"
         title: "Photos"
         type: "media"
         url: "URL"
-        version: 2.11
+        version: "2.11"
         width: 600
     RelationshipsPost:
       type: object
@@ -459,7 +459,19 @@ types:
                     followed_by: 5
             link: "link"
             created_time: "1386312776"
-            images: "URL"
+            images:
+              low_resolution:
+                url: "URL"
+                width: 200
+                height: 400
+              thumbnail:
+                url: "URL"
+                width: 400
+                height: 600
+              standard_resolution:
+                url: "URL"
+                width: 600
+                height: 800
             id: "id"
             location: "location"
     TagsRecentMediaItem:
@@ -517,7 +529,19 @@ types:
                 followed_by: 5
         link: "link"
         created_time: "1386312776"
-        images: "URL"
+        images:
+          low_resolution:
+            url: "URL"
+            width: 200
+            height: 400
+          thumbnail:
+            url: "URL"
+            width: 400
+            height: 600
+          standard_resolution:
+            url: "URL"
+            width: 600
+            height: 800
         id: "id"
         location: "location"
     UsersInPhoto:
@@ -609,7 +633,19 @@ types:
                   followed_by: 5
           link: "link"
           created_time: "1386312776"
-          images: "URL"
+          images:
+            low_resolution:
+              url: "URL"
+              width: 200
+              height: 400
+            thumbnail:
+              url: "URL"
+              width: 400
+              height: 600
+            standard_resolution:
+              url: "URL"
+              width: 600
+              height: 800
           id: "id"
           location: "location"
           user:
@@ -686,7 +722,19 @@ types:
                 followed_by: 5
         link: "link"
         created_time: "1386312776"
-        images: "URL"
+        images:
+          low_resolution:
+            url: "URL"
+            width: 200
+            height: 400
+          thumbnail:
+            url: "URL"
+            width: 400
+            height: 600
+          standard_resolution:
+            url: "URL"
+            width: 600
+            height: 800
         id: "id"
         location: "location"
         user:
@@ -726,7 +774,7 @@ types:
               properties:
                 data?: Comment[]
                 count?: number
-            caption: "Caption"
+            caption: string
             likes: Likes
             link: string
             user: User
@@ -787,7 +835,19 @@ types:
                   followed_by: 5
           link: "link"
           created_time: "1386312776"
-          images: "URL"
+          images:
+            low_resolution:
+              url: "URL"
+              width: 200
+              height: 400
+            thumbnail:
+              url: "URL"
+              width: 400
+              height: 600
+            standard_resolution:
+              url: "URL"
+              width: 600
+              height: 800
           id: "id"
           location: "location"
           user:
