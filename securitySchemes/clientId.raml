@@ -1,3 +1,4 @@
+#%RAML 1.0 SecurityScheme
 description: |
   in many situations, you may not need to authenticate users at all.
   For instance, you may request popular photos without authenticating
@@ -5,9 +6,9 @@ description: |
   We only require authentication in cases where your application is making requests on behalf of a user
   (commenting, liking, browsing a user's feed, etc.).
 type: x-customHeader
-describedBy: 
-  queryParameters: 
-    client_id: 
+describedBy:
+  queryParameters:
+    client_id:
       description: |
         Client_id is is identifier of  your server, script, or program with a specific application
         this parameter is required if you are accessing APIs without authenticating
